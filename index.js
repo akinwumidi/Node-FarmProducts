@@ -1,5 +1,6 @@
 const fs = require('fs');
 const http = require('http')
+const url = require('url')
 ////////////////////////////////////////////////////////////
 
 
@@ -31,25 +32,28 @@ const overviewCompiled = tempOverview.replace(/{%PRODUCT_CARDS%}/g, cardsHtml)
 // SERVER
 
 const server = http.createServer((req, res) => {
-    const pathName = req.url
+    const { query, pathname } = url.parse(req.url, true)
     // Initial Server test script
     // res.writeHead(202, { 'content-type': "text/html" })
     // res.end('<h1>server is up and running!!!</h1>')
 
     // Overview Page
-    if (pathName.toLowerCase() === '/' || pathName.toLowerCase() === '/overview') {
+    if (pathname.toLowerCase() === '/' || pathname.toLowerCase() === '/overview') {
         res.writeHead(202, { 'content-type': 'text/html' })
         res.end(overviewCompiled)
     }
 
     // Product Page
-    else if (pathName.toLowerCase() === '/product') {
+    else if (pathname.toLowerCase() === '/product') {
+        // console.log(query)
+        const specificProduct = dataObj[query.id]
+        const compiledProducts = replaceTemplate(tempProduct, specificProduct)
         res.writeHead(202, { 'content-type': 'text/html' })
-        res.end(tempProduct)
+        res.end(compiledProducts)
     }
 
     // API PAGE
-    else if (pathName === '/api') {
+    else if (pathname === '/api') {
         res.writeHead(200, { 'content-type': 'application/json' })
         res.end(data)
     }
