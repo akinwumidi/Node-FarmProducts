@@ -1,0 +1,29 @@
+{
+  "name": "node-farmproducts",
+  "version": "1.0.0",
+  "description": "A simple node js farm products page",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/akinwumidi/Node-FarmProducts.git"
+  },
+  "keywords": [
+    "Node",
+    "js"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/akinwumidi/Node-FarmProducts/issues"
+  },
+  "homepage": "https://github.com/akinwumidi/Node-FarmProducts#readme",
+  "dependencies": { 
+    "nodemon": "^2.0.12"
+  },"engines": {
+    "node": ">=14"
+  }
+}

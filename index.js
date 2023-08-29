@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http')
 const url = require('url')
+const replaceTemplate = require('./modules/replaceTemplate')
 ////////////////////////////////////////////////////////////
 
 
@@ -10,20 +11,7 @@ const tempOverview = fs.readFileSync(`${__dirname}/templates/template-overview.h
 const tempCard = fs.readFileSync(`${__dirname}/templates/template-card.html`, 'utf-8')
 const tempProduct = fs.readFileSync(`${__dirname}/templates/template-product.html`, 'utf-8')
 
-const replaceTemplate = (temp, product) => {
-    let output = temp.replace(/{%PRODUCTNAME%}/g, product.productName)
-    output = output.replace(/{%IMAGE%}/g, product.image)
-    output = output.replace(/{%QUANTITY%}/g, product.quantity)
-    output = output.replace(/{%PRICE%}/g, product.price)
-    output = output.replace(/{%ID%}/g, product.id)
-    output = output.replace(/{%DESCRIPTION%}/g, product.description)
-    output = output.replace(/{%FROM%}/g, product.from)
-    output = output.replace(/{%NUTRIENTS%}/g, product.nutrients)
-    if (!product.organic) {
-        output = output.replace(/{%NOT_ORGANIC%}/g, 'not-organic')
-    }
-    return output
-}
+
 
 const cardsHtml = dataObj.map(el => replaceTemplate(tempCard, el)).join('')
 const overviewCompiled = tempOverview.replace(/{%PRODUCT_CARDS%}/g, cardsHtml)
@@ -68,7 +56,10 @@ const server = http.createServer((req, res) => {
     }
 })
 
+// Local server
+// server.listen(8000, '127.0.0.1', () => {
+//     console.log('please type 127.0.0.1:8000 in your local browser, to load Application!!!')
+// })
 
-server.listen(8000, '127.0.0.1', () => {
-    console.log('Listening to request on port 8000')
-})
+// Online render server 
+server.listen(3001)
